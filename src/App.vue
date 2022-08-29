@@ -1,7 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import NoteCreator from "./components/NoteCreator.vue";
+</script>
 
 <template>
-  <h1 class="text-3xl font-bold underline text-blue-700">Hello world!</h1>
+  <section class="h-screen w-screen bg-neutral-200">
+    <div class="flex justify-center align-center p-6">
+      <NoteCreator></NoteCreator>
+    </div>
+  </section>
 </template>
 
 <style scoped></style>
