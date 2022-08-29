@@ -1,11 +1,24 @@
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
+import {
+  onClickOutside,
+  type MaybeElement,
+  type MaybeElementRef,
+} from "@vueuse/core";
 
 const isEditing: Ref<boolean> = ref(false);
+
+const note: MaybeElementRef<MaybeElement> = ref(null);
+onClickOutside(note, () => closeEditor());
 
 function toggleEditing() {
   isEditing.value = !isEditing.value;
 }
+
+function closeEditor() {
+  isEditing.value = false;
+}
+
 function openEditor() {
   isEditing.value = true;
 }
@@ -13,6 +26,7 @@ function openEditor() {
 
 <template>
   <div
+    ref="note"
     class="w-full md:w-[560px] max-h-[600px] rounded-md bg-slate-50 px-4 py-2 shadow-md"
   >
     <input
