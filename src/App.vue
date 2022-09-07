@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { ref, type Ref } from "vue";
 import NoteCreator from "./components/NoteCreator.vue";
 import NoteViewer from "./components/NoteViewer.vue";
 import NoteModal from "./components/NoteModal.vue";
+import LogosContainer from "./components/LogosContainer.vue";
 
-import { ref, type Ref } from "vue";
 const showNoteModal: Ref<boolean> = ref(false);
 
 function openNoteModal() {
@@ -16,6 +17,7 @@ function closeNoteModal() {
 
 <template>
   <section class="h-screen w-screen bg-neutral-200">
+    <LogosContainer></LogosContainer>
     <div class="flex justify-center align-center p-6">
       <NoteCreator></NoteCreator>
     </div>
