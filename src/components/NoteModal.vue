@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref, type Ref } from "vue";
+import { onMounted, reactive, ref, type Ref } from "vue";
 import ColorPicker from "./ColorPicker.vue";
 import { Icon } from "@iconify/vue";
 import {
@@ -10,6 +10,9 @@ import {
 import type { Note } from "@/interfaces/Note";
 
 const emits = defineEmits(["close"]);
+const props = defineProps<{
+  note: Note;
+}>();
 
 const note: MaybeElementRef<MaybeElement> = ref(null);
 
@@ -40,6 +43,13 @@ function changeColor(color: string) {
   noteContent.color = color;
   closeColorPicker();
 }
+
+onMounted(() => {
+  noteContent.id = props.note.id;
+  noteContent.title = props.note.title;
+  noteContent.content = props.note.content;
+  noteContent.color = props.note.color;
+});
 </script>
 
 <template>

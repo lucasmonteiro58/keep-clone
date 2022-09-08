@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
-const firebaConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyABI895_VHVFN64_70lkjxu1OM97i4Lv3s",
   authDomain: "keep-vue-38a03.firebaseapp.com",
   projectId: "keep-vue-38a03",
@@ -10,11 +11,7 @@ const firebaConfig = {
   measurementId: "G-8HTCT8B4RJ",
 };
 
-const app = initializeApp(config);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-const db = getFirestore(firebaseApp);
-export const notesCollection = collection(db, "notes");
-
-export const createNote = () => {
-  console.log(notesCollection);
-};
+export { db };
