@@ -8,15 +8,18 @@ import {
 } from "@vueuse/core";
 import ColorPicker from "./ColorPicker.vue";
 import type { Note } from "@/interfaces/Note";
+import { v4 as uuidv4 } from "uuid";
+import Api from "@/api";
 
 const isEditing: Ref<boolean> = ref(false);
+const emits = defineEmits(["save"]);
 
 const note: MaybeElementRef<MaybeElement> = ref(null);
 onClickOutside(note, () => closeEditor());
 
-function toggleEditing() {
-  isEditing.value = !isEditing.value;
-}
+// function toggleEditing() {
+//   isEditing.value = !isEditing.value;
+// }
 
 function closeEditor() {
   isEditing.value = false;
@@ -38,11 +41,25 @@ function closeColorPicker() {
 
 //Note content
 const noteContent: Note = reactive({
-  id: "",
+  id: uuidv4(),
   title: "",
   content: "",
   color: "bg-slate-50",
 });
+
+function resetNoteContent() {
+  noteContent.id = uuidv4();
+  noteContent.title = "";
+  noteContent.content = "";
+  noteContent.color = "bg-slate-50";
+}
+
+async function createNote() {
+  await Api.addNote(noteContent);
+  closeEditor();
+  resetNoteContent();
+  emits("save");
+}
 
 function changeColor(color: string) {
   noteContent.color = color;
@@ -90,7 +107,7 @@ function changeColor(color: string) {
         ></ColorPicker>
       </span>
 
-      <button class="px-4 py-2 rounded-sm" @click="toggleEditing">Save</button>
+      <button class="px-4 py-2 rounded-sm" @click="createNote">Save</button>
     </div>
   </div>
 </template>

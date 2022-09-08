@@ -39,7 +39,7 @@ onMounted(() => {
   <section class="min-h-screen w-screen bg-neutral-200 pb-6">
     <LogosContainer></LogosContainer>
     <div class="flex justify-center align-center p-6">
-      <NoteCreator></NoteCreator>
+      <NoteCreator @save="getAllNotes"></NoteCreator>
     </div>
     <div class="grid grid-cols-notes gap-5 mx-5 md:mx-[100px]">
       <NoteViewer
