@@ -1,4 +1,5 @@
 import { db } from "@/plugins/firebase";
+import { orderBy } from "lodash";
 import type { Note } from "@/interfaces/Note";
 import {
   collection,
@@ -15,7 +16,8 @@ const api = {
     querySnapshot.forEach((doc) => {
       notes.push(doc.data() as Note);
     });
-    return notes;
+    const orderNotes = orderBy(notes, ["date"], ["desc"]);
+    return orderNotes;
   },
   async addNote(note: Note) {
     await setDoc(doc(db, "notes", note.id), note);

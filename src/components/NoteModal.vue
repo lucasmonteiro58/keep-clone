@@ -8,8 +8,9 @@ import {
   type MaybeElementRef,
 } from "@vueuse/core";
 import type { Note } from "@/interfaces/Note";
+import Api from "@/api";
 
-const emits = defineEmits(["close"]);
+const emits = defineEmits(["close", "update"]);
 const props = defineProps<{
   note: Note;
 }>();
@@ -37,11 +38,30 @@ const noteContent: Note = reactive({
   title: "",
   content: "",
   color: "bg-slate-50",
+  date: new Date(),
 });
 
 function changeColor(color: string) {
   noteContent.color = color;
   closeColorPicker();
+}
+
+function deleteNote() {
+  Api.deleteNote(props.note);
+  emits("update");
+  closeModal();
+}
+
+function updateNote() {
+  Api.updateNote({
+    id: props.note.id,
+    title: noteContent.title,
+    content: noteContent.content,
+    color: noteContent.color,
+    date: props.note.date,
+  });
+  emits("update");
+  closeModal();
 }
 
 onMounted(() => {
@@ -90,7 +110,7 @@ onMounted(() => {
               @close="closeColorPicker"
               @changeColor="changeColor"
             ></ColorPicker>
-            <button class="h-8 w-8 rounded-full ml-2">
+            <button class="h-8 w-8 rounded-full ml-2" @click="deleteNote">
               <Icon
                 icon="mdi:trash-can-outline"
                 class="mx-auto"
@@ -102,7 +122,7 @@ onMounted(() => {
 
           <button
             class="px-4 py-1 active:bg-gray-300 rounded font-medium"
-            @click="closeModal"
+            @click="updateNote"
           >
             Done
           </button>

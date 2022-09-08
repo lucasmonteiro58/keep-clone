@@ -15,7 +15,7 @@ defineProps<{
       {{ note.title }}
     </div>
     <div
-      class="w-full block min-h-[5em] h-fit resize-none pb-5"
+      class="w-full block min-h-[5em] max-h-[600px] h-fit resize-none pb-5 text-ellipsis"
       :class="note.color"
     >
       {{ note.content }}

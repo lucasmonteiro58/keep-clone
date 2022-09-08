@@ -45,6 +45,7 @@ const noteContent: Note = reactive({
   title: "",
   content: "",
   color: "bg-slate-50",
+  date: new Date(),
 });
 
 function resetNoteContent() {
@@ -55,6 +56,7 @@ function resetNoteContent() {
 }
 
 async function createNote() {
+  noteContent.date = new Date();
   await Api.addNote(noteContent);
   closeEditor();
   resetNoteContent();
@@ -107,7 +109,9 @@ function changeColor(color: string) {
         ></ColorPicker>
       </span>
 
-      <button class="px-4 py-2 rounded-sm" @click="createNote">Save</button>
+      <button class="px-4 py-2 rounded-sm font-semibold" @click="createNote">
+        Save
+      </button>
     </div>
   </div>
 </template>

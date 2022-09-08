@@ -14,6 +14,7 @@ const noteToEdit: Ref<Note> = ref({
   title: "",
   content: "",
   color: "bg-slate-50",
+  date: new Date(),
 });
 
 function openNoteModal(note: Note) {
@@ -52,6 +53,7 @@ onMounted(() => {
     <NoteModal
       v-if="showNoteModal"
       @close="closeNoteModal"
+      @update="getAllNotes"
       :note="noteToEdit"
     ></NoteModal>
   </section>
