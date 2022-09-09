@@ -26,7 +26,7 @@ function closeModal() {
 }
 
 function resize() {
-  textarea.value.style.height = "120px";
+  textarea.value.style.height = "300px";
   textarea.value.style.height = textarea.value.scrollHeight + "px";
 }
 
@@ -85,6 +85,7 @@ onMounted(() => {
     class="h-full w-full backdrop-blur-sm bg-gray-300 bg-opacity-50 fixed top-0 flex justify-center items-center"
   >
     <div
+      v-motion-pop
       ref="note"
       :class="noteContent.color"
       class="md:w-[600px] w-full mx-6 rounded-md px-4 py-4 shadow-md"

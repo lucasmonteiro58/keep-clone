@@ -79,6 +79,7 @@ function changeColor(color: string) {
     class="w-full md:w-[560px] rounded-md px-4 py-2 shadow-md"
   >
     <input
+      v-motion-fade
       v-model="noteContent.title"
       v-if="isEditing"
       placeholder="Title"
@@ -95,7 +96,7 @@ function changeColor(color: string) {
       class="w-full block min-h-[5em] h-fit resize-none max-h-[60vh]"
     />
     <div v-if="isEditing" class="flex justify-between mt-4">
-      <span class="relative">
+      <span class="relative" v-motion-fade>
         <button
           class="h-8 w-8 rounded-full hover:brightness-90"
           @click="openColorPicker"
