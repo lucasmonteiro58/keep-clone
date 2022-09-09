@@ -16,11 +16,18 @@ const props = defineProps<{
 }>();
 
 const note: MaybeElementRef<MaybeElement> = ref(null);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const textarea: any = ref(null);
 
 onClickOutside(note, () => closeModal());
 
 function closeModal() {
   emits("close");
+}
+
+function resize() {
+  textarea.value.style.height = "120px";
+  textarea.value.style.height = textarea.value.scrollHeight + "px";
 }
 
 //Color Picker
@@ -69,6 +76,7 @@ onMounted(() => {
   noteContent.title = props.note.title;
   noteContent.content = props.note.content;
   noteContent.color = props.note.color;
+  resize();
 });
 </script>
 
@@ -79,7 +87,7 @@ onMounted(() => {
     <div
       ref="note"
       :class="noteContent.color"
-      class="md:w-[600px] w-full mx-6 max-h-[600px] rounded-md px-4 py-4 shadow-md"
+      class="md:w-[600px] w-full mx-6 rounded-md px-4 py-4 shadow-md"
     >
       <input
         placeholder="Title"
@@ -88,10 +96,12 @@ onMounted(() => {
         class="w-full font-bold mb-2"
       />
       <textarea
+        ref="textarea"
+        @input="resize"
         placeholder="Take a note..."
         :class="noteContent.color"
         v-model="noteContent.content"
-        class="w-full block min-h-[8em] h-fit resize-none"
+        class="w-full block min-h-[8em] h-fit resize-none max-h-[50vh]"
       />
 
       <div>

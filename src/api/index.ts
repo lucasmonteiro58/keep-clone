@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 
 const api = {
-  async getNotes() {
+  async getNotes(): Promise<Note[]> {
     const querySnapshot = await getDocs(collection(db, "notes"));
     const notes: Array<Note> = [];
     querySnapshot.forEach((doc) => {

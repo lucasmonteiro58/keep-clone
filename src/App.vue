@@ -5,6 +5,7 @@ import NoteViewer from "./components/NoteViewer.vue";
 import NoteModal from "./components/NoteModal.vue";
 import LogosContainer from "./components/LogosContainer.vue";
 import type { Note } from "./interfaces/Note";
+import { Icon } from "@iconify/vue";
 import Api from "@/api";
 
 const showNoteModal: Ref<boolean> = ref(false);
@@ -27,9 +28,14 @@ function closeNoteModal() {
 }
 
 async function getAllNotes() {
-  const notes = await Api.getNotes();
-  notesCollection.value = notes;
+  loadingNotes.value = true;
+  await Api.getNotes().then((result) => {
+    loadingNotes.value = false;
+    notesCollection.value = result;
+  });
 }
+
+const loadingNotes: Ref<boolean> = ref(true);
 
 onMounted(() => {
   getAllNotes();
@@ -42,7 +48,10 @@ onMounted(() => {
     <div class="flex justify-center align-center p-6">
       <NoteCreator @save="getAllNotes"></NoteCreator>
     </div>
-    <div class="grid grid-cols-notes gap-5 mx-5 md:mx-[100px]">
+    <div v-if="loadingNotes" class="flex justify-center mt-4">
+      <Icon icon="line-md:loading-twotone-loop" width="3rem"></Icon>
+    </div>
+    <div v-else class="grid grid-cols-notes gap-5 mx-5 md:mx-[100px]">
       <NoteViewer
         v-for="note in notesCollection"
         :key="note.id"
@@ -58,5 +67,3 @@ onMounted(() => {
     ></NoteModal>
   </section>
 </template>
-
-<style scoped></style>

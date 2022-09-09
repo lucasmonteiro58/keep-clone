@@ -17,9 +17,12 @@ const emits = defineEmits(["save"]);
 const note: MaybeElementRef<MaybeElement> = ref(null);
 onClickOutside(note, () => closeEditor());
 
-// function toggleEditing() {
-//   isEditing.value = !isEditing.value;
-// }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const textarea: any = ref(null);
+function resize() {
+  textarea.value.style.height = "120px";
+  textarea.value.style.height = textarea.value.scrollHeight + "px";
+}
 
 function closeEditor() {
   isEditing.value = false;
@@ -73,7 +76,7 @@ function changeColor(color: string) {
   <div
     ref="note"
     :class="noteContent.color"
-    class="w-full md:w-[560px] max-h-[600px] rounded-md px-4 py-2 shadow-md"
+    class="w-full md:w-[560px] rounded-md px-4 py-2 shadow-md"
   >
     <input
       v-model="noteContent.title"
@@ -83,11 +86,13 @@ function changeColor(color: string) {
       class="w-full font-bold mb-2"
     />
     <textarea
+      ref="textarea"
+      @input="resize"
       v-model="noteContent.content"
       @click="openEditor"
       placeholder="Take a note..."
       :class="noteContent.color"
-      class="w-full block min-h-[5em] h-fit resize-none"
+      class="w-full block min-h-[5em] h-fit resize-none max-h-[60vh]"
     />
     <div v-if="isEditing" class="flex justify-between mt-4">
       <span class="relative">
